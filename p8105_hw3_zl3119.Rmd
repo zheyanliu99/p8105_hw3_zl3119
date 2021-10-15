@@ -155,15 +155,21 @@ brfss_smart2010
 * organize responses as a factor taking levels ordered from “Poor” to “Excellent”
 
 ```{r}
+# Assume response level is Poor < Fair < Good < Very Good < Excellent
+response_level = c("Poor", "Fair", 'Good', 'Very good',"Excellent")
+
 brfss_smart2010_raw = 
   brfss_smart2010 %>% janitor::clean_names()
 
 brfss_smart2010 =
   brfss_smart2010_raw %>% 
     filter(topic == 'Overall Health', 
-           response %in% c("Poor", "Fair", "Excellent")) %>% 
+           response %in% response_level) %>% 
     distinct() %>% 
-    mutate(response = factor(response, levels = c("Poor", "Fair", "Excellent")))
+    mutate(response = factor(response, levels = response_level))
+
+
+brfss_smart2010 %>% select(response) %>% distinct()
 ```
 ##  Using this dataset, do or answer the following
 
