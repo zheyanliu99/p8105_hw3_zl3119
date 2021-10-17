@@ -203,9 +203,10 @@ excellet_response_df =
     mutate(data_value_sum = sample_size*data_value) %>% 
     group_by(year, locationabbr) %>% 
     summarise(nsample = sum(sample_size),
-              data_value_sumall = sum(data_value_sum)) %>% 
+              data_value_sumall = sum(data_value_sum),
+              data_value_mean = mean(data_value)) %>% 
     mutate(data_value_weightedmean = data_value_sumall/nsample) %>% 
-    select(year, locationabbr, data_value_weightedmean)
+    select(year, locationabbr, data_value_weightedmean, data_value_mean)
 
 excellet_response_df %>% 
   ggplot(aes(x = year, y = data_value_weightedmean, group = locationabbr, color = locationabbr)) +
@@ -214,6 +215,14 @@ excellet_response_df %>%
 ```
 
 The weighted average of data value are fluctuate from 2002 to 2010 in different states.
+
+If we do not consider sample size, the mean data value line plot looks like this:
+```{r mean plot without weight, fig.height=20, message=FALSE, warning=FALSE}
+excellet_response_df %>% 
+  ggplot(aes(x = year, y = data_value_mean, group = locationabbr, color = locationabbr)) +
+  # Not show legend, there is too many states to identify 
+  geom_line(show.legend = FALSE)
+```
 
 Make a two-panel plot showing, for the years 2006, and 2010, distribution of data_value for responses (“Poor” to “Excellent”) among locations in NY State.
 
