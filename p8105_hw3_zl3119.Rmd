@@ -310,19 +310,19 @@ accel_longer =
 
 accel_longer %>%
   ggplot(aes(x = activity_time, y = activity, color = day)) +
-  geom_point(alpha = 0.5) 
+  geom_line(alpha = 0.5) 
 ```
 
 In Sunday, the man is active in the mid of the day; In Friday, Saturday and Sunday, the man is active in the end of the day. In addition, he is not active from 0 to 300, this is probabaly his regular sleeping hours.
 
-Also we can make a groupby day plot to show day contrast (Monday:Sunday) more clearly
+Also we can make a groupby-day plot to show day contrast (Monday:Sunday) more clearly
 
 ```{r, message=FALSE}
 accel_longer %>% 
   group_by(day, activity_time) %>% 
   summarise(mean_activity = mean(activity)) %>%
   ggplot(aes(x = activity_time, y = mean_activity, color = day)) +
-  geom_point(alpha = 0.5) 
+  geom_line(alpha = 0.5) 
 ```
 
 
